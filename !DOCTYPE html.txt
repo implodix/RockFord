@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Minecraft сервер RockFord</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg: #f5f5f5;
+            --bg-dark: #e5e5e5;
+            --text: #222222;
+            --accent: #4b5563; /* тёмно-серый */
+            --accent-light: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #d4d4d4;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        nav a {
+            margin-left: 16px;
+            text-decoration: none;
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            padding: 40px 0 32px;
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+            gap: 32px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            margin: 0 0 12px;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            margin: 0 0 20px;
+            color: #4b5563;
+        }
+
+        .ip-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #ffffff;
+            border: 1px solid #d4d4d4;
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn.secondary {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn:hover {
+            filter: brightness(0.95);
+        }
+
+        .hero-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .hero-card h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .hero-card ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        section {
+            padding: 24px 0;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin: 0 0 12px;
+            color: var(--accent);
+        }
+
+        .grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        @media (min-width: 720px) {
+            .grid-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid #e5e5e5;
+            font-size: 14px;
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .tag {
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid #d4d4d4;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6b7280;
+        }
+
+        .status-online {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .status-offline {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .social-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            font-size: 14px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            border-top: 1px solid #d4d4d4;
+            padding: 16px 0;
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+            background: #f9fafb;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container nav">
+        <div class="logo">ROCKFORD</div>
+        <nav>
+            <a href="#about">О сервере</a>
+            <a href="#modes">Режимы</a>
+            <a href="#join">Как зайти</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Hero -->
+    <section class="hero" id="top">
+        <div class="hero-inner">
+            <div>
+                <h1 class="hero-title">Minecraft сервер RockFord</h1>
+                <p class="hero-sub">
+                    Современный выживание‑сервер с кастомной экономикой, уютным комьюнити и без Pay‑to‑Win.
+                </p>
+                <div class="ip-box">
+                    IP: <span id="server-ip">play.rockford-mc.ru</span>
+                    <button onclick="copyIp()" style="border:none;background:transparent;color:#4b5563;cursor:pointer;font-size:12px;">
+                        копировать
+                    </button>
+                </div>
+                <br>
+                <a href="#join" class="btn">Как зайти на сервер</a>
+                <a href="#contacts" class="btn secondary">Discord / VK</a>
+            </div>
+
+            <aside class="hero-card">
+                <h3>Статус сервера</h3>
+                <p>
+                    Онлайн: <span class="status-online">ON</span><br>
+                    Версия: 1.20.x (Java Edition)<br>
+                    Режим: выживание + экономика
+                </p>
+                <ul>
+                    <li>Без приватов по регионам — защита через клаймы.</li>
+                    <li>Справедливая экономика и честная администрация.</li>
+                    <li>Ивенты, квесты и сезонные вайпы.</li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <h2 class="section-title">О сервере RockFord</h2>
+        <p>
+            RockFord — это уютный выживание‑сервер, где главное — честная игра, стабильный мир и комфортное общение между игроками.
+        </p>
+        <p>
+            Сервер подойдёт как одиночным игрокам, так и кланам: есть экономика, торговля, аукцион и защита территории.
+        </p>
+    </section>
+
+    <!-- Modes / Features -->
+    <section id="modes">
+        <h2 class="section-title">Режимы и особенности</h2>
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>Выживание</h3>
+                <p>Классический survival без лишнего доната, но с удобными командами и защитой территории.</p>
+                <div class="tag-row">
+                    <span class="tag">Survival</span>
+                    <span class="tag">Клаймы</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Экономика</h3>
+                <p>Магазин, аукцион и внутриигровая валюта позволяют развивать торговлю между игроками.</p>
+                <div class="tag-row">
+                    <span class="tag">Shop</span>
+                    <span class="tag">Auction</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Ивенты</h3>
+                <p>Регулярные ивенты, мини‑игры и сезонные активности с уникальными наградами.</p>
+                <div class="tag-row">
+                    <span class="tag">Events</span>
+                    <span class="tag">Season</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to join -->
+    <section id="join">
+        <h2 class="section-title">Как зайти на RockFord</h2>
+        <div class="card">
+            <h3>Шаги подключения</h3>
+            <ol>
+                <li>Открой лаунчер Minecraft (Java Edition).</li>
+                <li>Выбери версию 1.20.x или выше.</li>
+                <li>В раздел «Сетевая игра» добавь новый сервер.</li>
+                <li>Введи IP: <strong>play.rockford-mc.ru</strong>.</li>
+                <li>Сохрани и заходи — приятной игры!</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Contacts -->
+    <section id="contacts">
+        <h2 class="section-title">Сообщество и контакты</h2>
+        <div class="card">
+            <p>Чтобы не пропускать новости, ивенты и раздачи, присоединяйся к нашим соцсетям.</p>
+            <div class="social-row">
+                <!-- Заменишь # на свои реальные ссылки -->
+                <a href="#" class="social-link">Discord сервер</a>
+                <a href="#" class="social-link">VK группа</a>
+                <a href="#" class="social-link">Dynmap / карта</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2025 RockFord Minecraft Server. Неофициальный сайт.
+</footer>
+
+<script>
+    function copyIp() {
+        const ip = document.getElementById('server-ip').textContent;
+        navigator.clipboard.writeText(ip).then(() => {
+            alert('IP скопирован: ' + ip);
+        }).catch(() => {
+            alert('Не удалось скопировать IP');
+        });
+    }
+</script>
+</body>
+</html>
